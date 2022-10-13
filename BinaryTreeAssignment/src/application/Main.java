@@ -32,7 +32,6 @@ import javafx.scene.text.Text;
 public class Main extends Application {
 	//Observable list only used for display purposes. 
 	public static ObservableList <String> listOfNames = FXCollections.observableArrayList();
-	private Property<ObservableList<String>> listOfNamesProperty = new SimpleObjectProperty<>(listOfNames);
 	
 	BinaryTree firstNameTree = new BinaryTree("firstName");
 	BinaryTree lastNameTree = new BinaryTree("lastName");
@@ -88,20 +87,29 @@ public class Main extends Application {
 			Button button07 = new Button("Search");
 			button07.setPrefSize(130, 20);
 			//Search by name length 
-			Text text6 = new Text("");
+			Text text6 = new Text("Search minimum name");
+			Text text7 = new Text("length (press Enter):");
+			TextField textBox0007 = new TextField ("5");
+			textBox0007.setPrefSize(120,20);
+			//Display first name length > last name length and vice versa
+			MenuItem menu7 = new MenuItem("First Name Length > Last Name Length");
+			MenuItem menu07 = new MenuItem("First Name Length < Last Name Length");
+			MenuButton menu007 = new MenuButton ("Name Length Lists",null,menu7,menu07);
 			
-			Button button7 = new Button("Search by First Name");
-			button7.setPrefSize(130, 20);
-			Button button8 = new Button("Search by Last Name");
-			button8.setPrefSize(130, 20);
-			Button button9 = new Button("Search by Age");
-			button9.setPrefSize(130, 20);
+//			Button button7 = new Button("Name Length > Last Name");
+//			button7.setPrefSize(130, 20);
+//			Button button8 = new Button("Search by Last Name");
+//			button8.setPrefSize(130, 20);
+//			Button button9 = new Button("Search by Age");
+//			button9.setPrefSize(130, 20);
 
 			
 		//Organizing all the left side buttons
 			VBox leftPane = new VBox(text01,text001,textBox01,text1,button1,button2,
 					text2,button3,button4,text3,button5,button6,
-					text4,text5,textBox7,textBox07,textBox007,button07,button7,button8,button9);
+					text4,text5,textBox7,textBox07,textBox007,button07,text6,text7,textBox0007,menu007
+					//button7,button8,button9	Buttons not needed at the moment
+					);
 			leftPane.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 			leftPane.setAlignment(Pos.TOP_LEFT);
 			leftPane.setPadding(new Insets(25,25,25,25));
@@ -114,7 +122,7 @@ public class Main extends Application {
 			nameListView.setPrefHeight(600);
 			VBox rightPane = new VBox (rightTitle,nameListView);
 			rightPane.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-			root.setRight(rightPane);
+			root.setRight(rightPane);			
 			
 		//Actions of the left side buttons
 			textBox01.setOnAction(new EventHandler<ActionEvent> () {
@@ -131,12 +139,7 @@ public class Main extends Application {
 						System.out.println("First Name Sort:");
 						rightTitle.setText("First Name Sort: ");
 						firstNameTree.inOrder();
-						System.out.println("------");
-						
-						
-						
-						
-						
+						System.out.println("------");	
 					}
 				}
 			});
@@ -278,6 +281,60 @@ public class Main extends Application {
 					System.out.println("------");
 				}
 			});
+			//Search button
+			button07.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					listOfNames.clear();
+					System.out.println("Name Search:");
+					rightTitle.setText("Name Search:");
+					
+					String firstNameSearch = textBox7.getText();
+//					if (!firstNameSearch.equals("First Name")) {
+//						System.out.println(firstNameSearch);
+//					}
+					textBox7.setText("First Name");
+					
+					String lastNameSearch = textBox07.getText();
+//					if (!lastNameSearch.equals("Last Name")) {
+//						System.out.println(lastNameSearch);
+//					}
+					textBox07.setText("Last Name");
+					
+					//Catch errors when strings are present in age
+					int ageSearch;
+					try {
+						ageSearch = Integer.parseInt(textBox007.getText());
+					} catch (NumberFormatException e) {
+						ageSearch = 120;
+					}
+					
+					if (ageSearch != 120 && !firstNameSearch.equals("First Name") &&
+							!lastNameSearch.equals("Last Name")) {
+						System.out.println(firstNameSearch);
+						System.out.println(lastNameSearch);
+						System.out.println(ageSearch);
+						Person searchPerson = new Person(firstNameSearch,lastNameSearch,ageSearch);
+						
+						boolean personPresent = firstNameTree.search(searchPerson);
+						
+						if (personPresent) {
+							System.out.println("Person Present");
+						} else {
+							System.out.println("Person Doesn't exist in this list");
+						}
+						
+					}
+					textBox007.setText("Age");
+					
+					
+					System.out.println("------");
+				}
+			});
+			
+			
+			
+			
 						
 			Scene scene = new Scene(root,400,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

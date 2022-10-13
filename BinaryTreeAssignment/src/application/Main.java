@@ -96,6 +96,7 @@ public class Main extends Application {
 			MenuItem menu07 = new MenuItem("First Name Length < Last Name Length");
 			MenuButton menu007 = new MenuButton ("Name Length Lists",null,menu7,menu07);
 			
+			//Make an add custom name button 
 //			Button button7 = new Button("Name Length > Last Name");
 //			button7.setPrefSize(130, 20);
 //			Button button8 = new Button("Search by Last Name");
@@ -120,6 +121,7 @@ public class Main extends Application {
 			rightTitle.setTranslateX(8);
 			ListView <String> nameListView = new ListView <String>(listOfNames);
 			nameListView.setPrefHeight(600);
+			nameListView.setPrefWidth(600);
 			VBox rightPane = new VBox (rightTitle,nameListView);
 			rightPane.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 			root.setRight(rightPane);			
@@ -152,8 +154,9 @@ public class Main extends Application {
 					listOfNames.clear();
 					System.out.println("First Name Sort:");
 					rightTitle.setText("First Name Sort: ");
-					firstNameTree.inOrder();
-					System.out.println("------");
+					firstNameTree.inOrder();					
+					System.out.println(firstNameTree.subTreeCompare(firstNameTree.root));
+					System.out.println("------");				
 				}
 			});
 			//Button for last name sort
@@ -184,6 +187,7 @@ public class Main extends Application {
 			button01.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					firstNameTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("Pre-order First Name Tree:");
 					rightTitle.setText("Pre-order First Name Tree:");
@@ -195,6 +199,7 @@ public class Main extends Application {
 			button001.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					firstNameTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("In-Order First Name Tree:");
 					rightTitle.setText("In-order First Name Tree:");
@@ -206,6 +211,7 @@ public class Main extends Application {
 			button0001.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					firstNameTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("Post-Order First Name Tree:");
 					rightTitle.setText("Post-order First Name Tree:");
@@ -218,6 +224,7 @@ public class Main extends Application {
 			button03.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					lastNameTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("Pre-order Last Name Tree:");
 					rightTitle.setText("Pre-order Last Name Tree:");
@@ -229,6 +236,7 @@ public class Main extends Application {
 			button003.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					lastNameTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("In-Order Last Name Tree:");
 					rightTitle.setText("In-Order Last Name Tree:");
@@ -240,6 +248,7 @@ public class Main extends Application {
 			button0003.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					lastNameTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("Post-Order Last Name Tree:");
 					rightTitle.setText("Post-Order Last Name Tree:");
@@ -252,6 +261,7 @@ public class Main extends Application {
 			button05.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					ageOrderTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("Pre-order Age Tree:");
 					rightTitle.setText("Pre-order Age Tree:");
@@ -263,6 +273,7 @@ public class Main extends Application {
 			button005.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					ageOrderTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("In-Order Age Tree:");
 					rightTitle.setText("In-Order Age Tree:");
@@ -274,6 +285,7 @@ public class Main extends Application {
 			button0005.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
+					ageOrderTree.balancingDetailsAdded = false;
 					listOfNames.clear();
 					System.out.println("Post-Order Age Tree:");
 					rightTitle.setText("Post-Order Age Tree:");
@@ -332,11 +344,7 @@ public class Main extends Application {
 				}
 			});
 			
-			
-			
-			
-						
-			Scene scene = new Scene(root,400,600);
+			Scene scene = new Scene(root,500,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setTitle("Person Binary Search Tree");

@@ -7,8 +7,9 @@ public class BinaryTree {
 	
 	//Root of the binary tree
 	Node root;
-	
 	String sortBy;
+	//Made public so it can be accessed by main
+	public static Boolean balancingDetailsAdded = false;
 	
 	/**
 	 * An empty binary tree
@@ -188,13 +189,43 @@ public class BinaryTree {
 	}
 	
 	/**
+	 * Printing whether it is skewed or not and the height
+	 */
+	public void addSkewedOrNot (Node root) {
+		if (!balancingDetailsAdded) {
+			int inOrderNumber = subTreeCompare(root);
+			if (inOrderNumber == -1) {
+				System.out.println("The binary tree is skewed");
+				Main.listOfNames.add("The binary tree is skewed");
+				balancingDetailsAdded = true;
+			} else if (inOrderNumber > -1 ) {
+				System.out.println("The binary tree is balanced with a height of " + inOrderNumber);
+				Main.listOfNames.add("The binary tree is balanced with a height of " + inOrderNumber);
+				balancingDetailsAdded = true;
+			}
+		}
+	}
+	
+	/**
 	 * recursively traverse the tree using pre order
 	 */
 	public void printPreOrderBinaryTree(Node root, String label) {
-		if (root != null) {
+		addSkewedOrNot(root);
+//		if (!balancingDetailsAdded) {
+//			int inOrderNumber = subTreeCompare(root);
+//			if (inOrderNumber == -1) {
+//				System.out.println("The binary tree is skewed");
+//				Main.listOfNames.add("The binary tree is skewed");
+//				balancingDetailsAdded = true;
+//			} else if (inOrderNumber > -1 ) {
+//				System.out.println("The binary tree is balanced with a height of " + inOrderNumber);
+//				Main.listOfNames.add("The binary tree is balanced with a height of " + inOrderNumber);
+//				balancingDetailsAdded = true;
+//			}
+//		}
+		if (root != null) {	
 			System.out.println(label + root.key );
 			Main.listOfNames.add(label + root.key);
-			
 			printPreOrderBinaryTree(root.left, "    " + label);
 			printPreOrderBinaryTree(root.right, "    " + label);
 		}
@@ -204,6 +235,7 @@ public class BinaryTree {
 	 * recursively traverse the tree using pre order
 	 */
 	public void printInBinaryTree(Node root, String label) {
+		addSkewedOrNot(root);
 		if (root != null) {
 			printInBinaryTree(root.left, "    " + label);
 			System.out.println(label + root.key );
@@ -216,6 +248,7 @@ public class BinaryTree {
 	 * recursively traverse the tree using pre order
 	 */
 	public void printPostOrderBinaryTree(Node root, String label) {
+		addSkewedOrNot(root);
 		if (root != null) {
 			printPostOrderBinaryTree(root.left, "    " + label);
 			printPostOrderBinaryTree(root.right, "    " + label);
@@ -232,8 +265,10 @@ public class BinaryTree {
 		Node tempRoot;
 		tempRoot = recursiveSearch(root,key);
 		if (tempRoot != null) {
+			Main.listOfNames.add(key + " exists in the list");
 			return true;
 		} else {
+			Main.listOfNames.add(key + " does not exist in the list");
 		return false;
 		}
 	}
@@ -276,6 +311,34 @@ public class BinaryTree {
 				}
 			} 
 		} 
+	}
+	
+	/**
+	 * To determine whether the left and right subtrees are balanced
+	 * Code used from
+	 * https://www.digitalocean.com/community/tutorials/balanced-binary-tree-check
+	 */
+	public int subTreeCompare (Node root) {
+		if (root == null) {
+			return 0;
+		}
+		//checking the left subtree
+		int leftTreeCompare = subTreeCompare (root.left);
+		if (leftTreeCompare == -1) {
+			return -1;
+		}
+		//checking the right subtree
+		int rightTreeCompare = subTreeCompare (root.right);
+		if (rightTreeCompare == -1) {
+			return -1;
+		}
+		//Check left and right subtree difference for current node
+		if (Math.abs(leftTreeCompare - rightTreeCompare) > 1) {
+			return -1;
+		} else {
+			return (Math.max(leftTreeCompare,rightTreeCompare) +1);
+		}
+		
 	}
 
 }

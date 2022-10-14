@@ -1,7 +1,9 @@
 package application;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class BinaryTree {
 	//Using website: https://www.javatpoint.com/binary-tree-java
@@ -22,46 +24,34 @@ public class BinaryTree {
 		root = null;
 	}
 	
-	/**
-	 * Delete node from tree
-	 */
-//	public void deleteKey (Person key) {
-//		root = recursiveDelete (root,key);
-//	}
 	
 	/**
-	 * Delete recursively function
+	 * Traversal using breadth first
+	 * Code used from the lecture slides 0301 and
+	 * https://www.geeksforgeeks.org/level-order-tree-traversal/
 	 */
-//	public Node recursiveDelete (Node root, Person key) {
-//		//if the tree is empty
-//		if (root == null) {
-//			return root;
-//		}
-//		
-//		//Comparing lexicographically first name of key vs root
-//		int comparison = compareByFirstName(key,root.key);
-//		//This is to traverse the tree
-//		if (comparison < 0) {
-//			root.left = recursiveDelete(root.left,key);
-//		} else if (comparison > 0){
-//			root.right = recursiveDelete(root.right,key);
-//		} else {
-//			//If the node has only one child
-//			if (comparison == 0) {
-//				return root.right;
-//			} else if (root.right == null) {
-//				return root.left;
-//			}
-//			//If the node has two children
-//			//get the in order success and then delete it
-//			root.key = smallestValue(root.right);
-//			root.right = recursiveDelete(root.right,root.key);
-//		}
-//		return root;
-//	}
-	
-
-	
+	public void breadthFirstTraversal () {
+		Queue<Node> todo = new ArrayDeque<Node>();
+		todo.offer(root);
+		
+		while (!todo.isEmpty()) {
+			
+			Node temp;
+			temp = todo.remove();
+			System.out.println(temp.key);
+			
+			
+			//enqueue the left child
+			if (temp.left != null) {
+				todo.offer(root.left);
+			}
+			//enqueue the right child
+			if (temp.right != null) {
+				todo.offer(root.right);
+			}
+		} 
+	}
+		
 	/**
 	 * Left hand value: minimum
 	 * 
@@ -123,7 +113,8 @@ public class BinaryTree {
 			return a.getFirstName().compareTo(b.getFirstName());
 		} else if (a.getLastName().compareTo(b.getLastName()) != 0) {
 			return a.getLastName().compareTo(b.getLastName());
-		} else if (a.getAge() != (b.getAge())) {
+		} else if (a.getAge() != (b.getAge())) 
+			{
 			return a.getAge() - b.getAge();
 		} else {
 			//If they are the same name, automatically puts it to the right side.
@@ -235,7 +226,7 @@ public class BinaryTree {
 	}
 	
 	/**
-	 * recursively traverse the tree using pre order
+	 * recursively traverse the tree using In order
 	 */
 	public void printInBinaryTree(Node root, String label) {
 		addSkewedOrNot(root);
@@ -248,7 +239,7 @@ public class BinaryTree {
 	}
 	
 	/**
-	 * recursively traverse the tree using pre order
+	 * recursively traverse the tree using Post order
 	 */
 	public void printPostOrderBinaryTree(Node root, String label) {
 		addSkewedOrNot(root);
@@ -278,7 +269,6 @@ public class BinaryTree {
 	
 	/**
 	 * recursive method to search tree
-	 * if it is not present, then it will be inserted
 	 */
 	public Node recursiveSearch (Node root, Person key) {
 		//If the root is present, checking first name, last name and age.
@@ -397,18 +387,67 @@ public class BinaryTree {
 		}
 	}
 	
+	/**
+	 * Using the 0301TreesandGraphs slides
+	 */
+	public List<Person> findNameLength (Node p, int minLength) {
+		List<Person> nameList = new ArrayList<Person>();
+		findNameLengthRecursion(p, minLength, nameList);
+		
+		return nameList;
+	}
+	public void findNameLengthRecursion (Node p, int minLength, List<Person>nameList) {
+		if (p!=null) {
+			if (p.key.getFirstName().length() >= minLength  &&  
+					p.key.getLastName().length() >= minLength) {
+				nameList.add(p.key);
+			}
+			findNameLengthRecursion(p.left,minLength,nameList);
+			findNameLengthRecursion(p.right,minLength,nameList);
+			
+		}
+	}
 	
 	
 	
 	
+	/**
+	 * Delete node from tree
+	 */
+//	public void deleteKey (Person key) {
+//		root = recursiveDelete (root,key);
+//	}
 	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Delete recursively function
+	 */
+//	public Node recursiveDelete (Node root, Person key) {
+//		//if the tree is empty
+//		if (root == null) {
+//			return root;
+//		}
+//		
+//		//Comparing lexicographically first name of key vs root
+//		int comparison = compareByFirstName(key,root.key);
+//		//This is to traverse the tree
+//		if (comparison < 0) {
+//			root.left = recursiveDelete(root.left,key);
+//		} else if (comparison > 0){
+//			root.right = recursiveDelete(root.right,key);
+//		} else {
+//			//If the node has only one child
+//			if (comparison == 0) {
+//				return root.right;
+//			} else if (root.right == null) {
+//				return root.left;
+//			}
+//			//If the node has two children
+//			//get the in order success and then delete it
+//			root.key = smallestValue(root.right);
+//			root.right = recursiveDelete(root.right,root.key);
+//		}
+//		return root;
+//	}
 	
 	
 }

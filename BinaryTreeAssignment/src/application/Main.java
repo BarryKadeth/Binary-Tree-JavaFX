@@ -55,7 +55,8 @@ public class Main extends Application {
 			MenuItem button01 = new MenuItem("Pre-Order Tree");
 			MenuItem button001 = new MenuItem("In-Order Tree");
 			MenuItem button0001 = new MenuItem("Post-Order Tree");
-			MenuButton button1 = new MenuButton ("First Name Tree",null,button01,button001,button0001);
+			MenuItem button00001 = new MenuItem("Breadth-order List");
+			MenuButton button1 = new MenuButton ("First Name Tree",null,button01,button001,button0001,button00001);
 			button1.setPrefSize(130, 20);
 			Button button2 = new Button("List by First Name");
 			button2.setPrefSize(130, 20);
@@ -64,7 +65,8 @@ public class Main extends Application {
 			MenuItem button03 = new MenuItem("Pre-Order Tree");
 			MenuItem button003 = new MenuItem("In-Order Tree");
 			MenuItem button0003 = new MenuItem("Post-Order Tree");
-			MenuButton button3 = new MenuButton ("Last Name Tree",null,button03,button003,button0003);
+			MenuItem button00003 = new MenuItem("Breadth-Order List");
+			MenuButton button3 = new MenuButton ("Last Name Tree",null,button03,button003,button0003,button00003);
 			button3.setPrefSize(130, 20);
 			Button button4 = new Button("List by Last Name");
 			button4.setPrefSize(130, 20);
@@ -73,7 +75,8 @@ public class Main extends Application {
 			MenuItem button05 = new MenuItem("Pre-Order Tree");
 			MenuItem button005 = new MenuItem("In-Order Tree");
 			MenuItem button0005 = new MenuItem("Post-Order Tree");
-			MenuButton button5 = new MenuButton ("Age Order Tree",null,button05,button005,button0005);
+			MenuItem button00005 = new MenuItem("Breadth-Order List");
+			MenuButton button5 = new MenuButton ("Age Order Tree",null,button05,button005,button0005,button00005);
 			button5.setPrefSize(130, 20);
 			Button button6 = new Button("List by Age Order");
 			button6.setPrefSize(130, 20);
@@ -124,7 +127,7 @@ public class Main extends Application {
 			rightTitle.setTranslateX(8);
 			ListView <String> nameListView = new ListView <String>(listOfNames);
 			nameListView.setPrefHeight(600);
-			nameListView.setPrefWidth(600);
+			nameListView.setPrefWidth(350);
 			VBox rightPane = new VBox (rightTitle,nameListView);
 			rightPane.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 			root.setRight(rightPane);			
@@ -222,6 +225,19 @@ public class Main extends Application {
 					System.out.println("------");
 				}
 			});
+				
+			//Breadth first traversal first name 
+			button00001.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					listOfNames.clear();
+					System.out.println("Breadth First Traversal First-Name Order List:");
+					rightTitle.setText("Breadth First Traversal First-Name Order List:");
+					firstNameTree.recursiveInOrder(firstNameTree.root);
+					System.out.println("------");
+				}
+			});
+		
 		//Last Names
 			//Pre-order last name
 			button03.setOnAction(new EventHandler<ActionEvent> () {
@@ -259,6 +275,17 @@ public class Main extends Application {
 					System.out.println("------");
 				}
 			});
+			//Breadth first traversal last name 
+			button00003.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					listOfNames.clear();
+					System.out.println("Breadth First Traversal Last-Name Order List:");
+					rightTitle.setText("Breadth First Traversal Last-Name Order List:");
+					lastNameTree.recursiveInOrder(lastNameTree.root);
+					System.out.println("------");
+				}
+			});
 		//Age order
 			//Pre-order age order
 			button05.setOnAction(new EventHandler<ActionEvent> () {
@@ -293,6 +320,17 @@ public class Main extends Application {
 					System.out.println("Post-Order Age Tree:");
 					rightTitle.setText("Post-Order Age Tree:");
 					ageOrderTree.printPostOrderBinaryTree(ageOrderTree.root, "");
+					System.out.println("------");
+				}
+			});
+			//Breadth first traversal age order
+			button00005.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					listOfNames.clear();
+					System.out.println("Breadth First Traversal Age Order List:");
+					rightTitle.setText("Breadth First Traversal Age Order List:");
+					ageOrderTree.recursiveInOrder(ageOrderTree.root);
 					System.out.println("------");
 				}
 			});
@@ -376,6 +414,24 @@ public class Main extends Application {
 				//For when only last name and age is present:
 					
 					
+					System.out.println("------");
+				}
+			});
+			//Breadth first traversal age order
+			textBox0007.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					listOfNames.clear();
+					int minLength = Integer.parseInt(textBox0007.getText());
+					List <Person> nameCharList = new ArrayList (ageOrderTree.findNameLength(ageOrderTree.root,minLength));
+					
+					for (int i = 0; i < nameCharList.size();i++ ) {
+						System.out.println(nameCharList.get(i));
+						listOfNames.add(nameCharList.get(i).toString());
+						
+					}
+					System.out.println("List of people with " + minLength + " characters or more in first and last name");
+					rightTitle.setText("List of people with " + minLength + " characters or more in first and last name");
 					System.out.println("------");
 				}
 			});

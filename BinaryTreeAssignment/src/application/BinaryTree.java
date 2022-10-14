@@ -23,35 +23,7 @@ public class BinaryTree {
 		this.sortBy = sortBy;
 		root = null;
 	}
-	
-	
-	/**
-	 * Traversal using breadth first
-	 * Code used from the lecture slides 0301 and
-	 * https://www.geeksforgeeks.org/level-order-tree-traversal/
-	 */
-	public void breadthFirstTraversal () {
-		Queue<Node> todo = new ArrayDeque<Node>();
-		todo.offer(root);
-		
-		while (!todo.isEmpty()) {
 			
-			Node temp;
-			temp = todo.remove();
-			System.out.println(temp.key);
-			
-			
-			//enqueue the left child
-			if (temp.left != null) {
-				todo.offer(root.left);
-			}
-			//enqueue the right child
-			if (temp.right != null) {
-				todo.offer(root.right);
-			}
-		} 
-	}
-		
 	/**
 	 * Left hand value: minimum
 	 * 
@@ -205,18 +177,6 @@ public class BinaryTree {
 	 */
 	public void printPreOrderBinaryTree(Node root, String label) {
 		addSkewedOrNot(root);
-//		if (!balancingDetailsAdded) {
-//			int inOrderNumber = subTreeCompare(root);
-//			if (inOrderNumber == -1) {
-//				System.out.println("The binary tree is skewed");
-//				Main.listOfNames.add("The binary tree is skewed");
-//				balancingDetailsAdded = true;
-//			} else if (inOrderNumber > -1 ) {
-//				System.out.println("The binary tree is balanced with a height of " + inOrderNumber);
-//				Main.listOfNames.add("The binary tree is balanced with a height of " + inOrderNumber);
-//				balancingDetailsAdded = true;
-//			}
-//		}
 		if (root != null) {	
 			System.out.println(label + root.key );
 			Main.listOfNames.add(label + root.key);
@@ -249,6 +209,30 @@ public class BinaryTree {
 			System.out.println(label + root.key );
 			Main.listOfNames.add(label + root.key);
 		}
+	}
+	
+	/**
+	 * Traversal using breadth first
+	 * Code used from the lecture slides 0301 and
+	 * https://www.geeksforgeeks.org/level-order-tree-traversal/
+	 */
+	public void breadthFirstTraversal () {
+		Queue<Node> todo = new ArrayDeque<Node>();
+		todo.offer(root);
+		while (!todo.isEmpty()) {
+			Node temp;
+			temp = todo.remove();
+			System.out.println(temp.key);
+			Main.listOfNames.add(temp.key.toString());
+			//enqueue the left child
+			if (temp.left != null) {
+				todo.offer(temp.left);
+			}
+			//enqueue the right child
+			if (temp.right != null) {
+				todo.offer(temp.right);
+			}
+		} 
 	}
 	
 	/**

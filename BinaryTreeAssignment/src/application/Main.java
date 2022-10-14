@@ -254,7 +254,6 @@ public class Main extends Application {
 					System.out.println("------");
 				}
 			});
-				
 			//Breadth first traversal first name 
 			button00001.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
@@ -262,11 +261,10 @@ public class Main extends Application {
 					listOfNames.clear();
 					System.out.println("Breadth First Traversal First-Name Order List:");
 					rightTitle.setText("Breadth First Traversal First-Name Order List:");
-					firstNameTree.recursiveInOrder(firstNameTree.root);
+					firstNameTree.breadthFirstTraversal();
 					System.out.println("------");
 				}
 			});
-		
 		//Last Names
 			//Pre-order last name
 			button03.setOnAction(new EventHandler<ActionEvent> () {
@@ -311,7 +309,7 @@ public class Main extends Application {
 					listOfNames.clear();
 					System.out.println("Breadth First Traversal Last-Name Order List:");
 					rightTitle.setText("Breadth First Traversal Last-Name Order List:");
-					lastNameTree.recursiveInOrder(lastNameTree.root);
+					lastNameTree.breadthFirstTraversal();
 					System.out.println("------");
 				}
 			});
@@ -359,11 +357,11 @@ public class Main extends Application {
 					listOfNames.clear();
 					System.out.println("Breadth First Traversal Age Order List:");
 					rightTitle.setText("Breadth First Traversal Age Order List:");
-					ageOrderTree.recursiveInOrder(ageOrderTree.root);
+					ageOrderTree.breadthFirstTraversal();
 					System.out.println("------");
 				}
 			});
-			//Search button
+		//Search button
 			button07.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
@@ -435,14 +433,9 @@ public class Main extends Application {
 							listOfNames.add(ageList.get(i).toString());
 						}
 					}
-					
-				//For when only first name and last name is input:
-					
-				//For when only first name and age is input:
-					
-				//For when only last name and age is present:
-					
-					
+				//For when only first name and last name is input:	
+				//For when only first name and age is input:	
+				//For when only last name and age is present:	
 					System.out.println("------");
 				}
 			});
@@ -481,25 +474,16 @@ public class Main extends Application {
 					System.out.println("------");
 				}
 			});
-			
-			
-			
-			
-			
-			
-			
-			//Breadth first traversal age order
+			//Minimum name length of first and last name
 			textBox0007.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
 				public void handle (ActionEvent arg0) {
 					listOfNames.clear();
 					int minLength = Integer.parseInt(textBox0007.getText());
 					List <Person> nameCharList = new ArrayList (ageOrderTree.findNameLength(ageOrderTree.root,minLength));
-					
 					for (int i = 0; i < nameCharList.size();i++ ) {
 						System.out.println(nameCharList.get(i));
 						listOfNames.add(nameCharList.get(i).toString());
-						
 					}
 					System.out.println("List of people with " + minLength + " characters or more in first and last name");
 					rightTitle.setText("List of people with " + minLength + " characters or more in first and last name");
@@ -507,14 +491,7 @@ public class Main extends Application {
 				}
 			});
 			
-			
-			
-			
-			
-			
-			
-			
-			
+			//Setting the scene on JavaFX
 			Scene scene = new Scene(root,500,630);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			

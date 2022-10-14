@@ -1,5 +1,8 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryTree {
 	//Using website: https://www.javatpoint.com/binary-tree-java
 	//https://www.softwaretestinghelp.com/binary-search-tree-in-java/
@@ -92,9 +95,9 @@ public class BinaryTree {
 		//Tree needs to be traversed
 		//Comparing depending on the type of binary tree
 		int comparison;
-		if (sortBy.equals("firstName")) {
+		if (sortBy.equalsIgnoreCase("firstName")) {
 			comparison = compareByFirstName(key,root.key);
-		} else if (sortBy.equals("lastName")) {
+		} else if (sortBy.equalsIgnoreCase("lastName")) {
 			comparison = compareByLastName(key,root.key);
 		} else {
 			comparison = compareByAge(key,root.key);
@@ -280,8 +283,8 @@ public class BinaryTree {
 	public Node recursiveSearch (Node root, Person key) {
 		//If the root is present, checking first name, last name and age.
 		
-		if (root == null || ( key.getFirstName().equals(root.key.getFirstName())
-			&& key.getLastName().equals(root.key.getLastName()) &&
+		if (root == null || ( key.getFirstName().equalsIgnoreCase(root.key.getFirstName())
+			&& key.getLastName().equalsIgnoreCase(root.key.getLastName()) &&
 			key.getAge() == root.key.getAge()
 				)) {
 			return root;
@@ -338,7 +341,74 @@ public class BinaryTree {
 		} else {
 			return (Math.max(leftTreeCompare,rightTreeCompare) +1);
 		}
-		
 	}
-
+	
+	/**
+	 * Find person with a specific first name
+	 */
+	public List<Person> findFirstName (Node p, String firstName) {
+		List <Person> firstNameList = new ArrayList<Person>();
+		findFirstNameRecursion(p,firstName,firstNameList);
+		return firstNameList;
+	}
+	public void findFirstNameRecursion (Node p, String firstName, List<Person>firstNameList) {
+		if (p!=null) {
+			if (p.key.getFirstName().equalsIgnoreCase(firstName)) {
+				firstNameList.add(p.key);
+			}
+			findFirstNameRecursion(p.left,firstName,firstNameList);
+			findFirstNameRecursion(p.right,firstName,firstNameList);
+		}
+	}
+	
+	/**
+	 * Find person with a specific Last name
+	 */
+	public List<Person> findLastName (Node p, String lastName) {
+		List <Person> lastNameList = new ArrayList<Person>();
+		findLastNameRecursion(p,lastName,lastNameList);
+		return lastNameList;
+	}
+	public void findLastNameRecursion (Node p, String lastName, List<Person>lastNameList) {
+		if (p!=null) {
+			if (p.key.getLastName().equalsIgnoreCase(lastName)) {
+				lastNameList.add(p.key);
+			}
+			findLastNameRecursion(p.left,lastName,lastNameList);
+			findLastNameRecursion(p.right,lastName,lastNameList);
+		}
+	}
+	
+	/**
+	 * Find person with a specific age
+	 */
+	public List<Person> findAge (Node p, int age) {
+		List <Person> ageList = new ArrayList<Person>();
+		findAgeRecursion(p,age,ageList);
+		return ageList;
+	}
+	public void findAgeRecursion (Node p, int age, List<Person>ageList) {
+		if (p!=null) {
+			if (p.key.getAge() == age) {
+				ageList.add(p.key);
+			}
+			findAgeRecursion(p.left,age,ageList);
+			findAgeRecursion(p.right,age,ageList);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

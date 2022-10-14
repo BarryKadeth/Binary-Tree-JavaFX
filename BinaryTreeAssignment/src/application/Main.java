@@ -1,5 +1,8 @@
 package application;
 	
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -75,8 +78,8 @@ public class Main extends Application {
 			Button button6 = new Button("List by Age Order");
 			button6.setPrefSize(130, 20);
 			//Searching buttons
-			Text text4 = new Text("Search for person or ");
-			Text text5 = new Text("people (press Search): ");
+			Text text4 = new Text("Search for person or an");
+			Text text5 = new Text("attribute (press Search):");
 			//Search person
 			TextField textBox7 = new TextField ("First Name");
 			textBox7.setPrefSize(120,20);
@@ -113,7 +116,7 @@ public class Main extends Application {
 					);
 			leftPane.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 			leftPane.setAlignment(Pos.TOP_LEFT);
-			leftPane.setPadding(new Insets(25,25,25,25));
+			leftPane.setPadding(new Insets(10,10,10,10));
 			root.setLeft(leftPane);
 			
 		//Right listView displaying names 
@@ -300,19 +303,11 @@ public class Main extends Application {
 					listOfNames.clear();
 					System.out.println("Name Search:");
 					rightTitle.setText("Name Search:");
-					
+					//Getting names from the textboxes
 					String firstNameSearch = textBox7.getText();
-//					if (!firstNameSearch.equals("First Name")) {
-//						System.out.println(firstNameSearch);
-//					}
 					textBox7.setText("First Name");
-					
 					String lastNameSearch = textBox07.getText();
-//					if (!lastNameSearch.equals("Last Name")) {
-//						System.out.println(lastNameSearch);
-//					}
 					textBox07.setText("Last Name");
-					
 					//Catch errors when strings are present in age
 					int ageSearch;
 					try {
@@ -320,24 +315,65 @@ public class Main extends Application {
 					} catch (NumberFormatException e) {
 						ageSearch = 120;
 					}
-					
+					textBox007.setText("Age");
+				//For when first name, last name and age are input
 					if (ageSearch != 120 && !firstNameSearch.equals("First Name") &&
-							!lastNameSearch.equals("Last Name")) {
+							!lastNameSearch.equals("Last Name") && !firstNameSearch.equals("")
+							&& !lastNameSearch.equals("")) {
 						System.out.println(firstNameSearch);
 						System.out.println(lastNameSearch);
 						System.out.println(ageSearch);
 						Person searchPerson = new Person(firstNameSearch,lastNameSearch,ageSearch);
-						
+					//Boolean for whether person is present or not
 						boolean personPresent = firstNameTree.search(searchPerson);
-						
 						if (personPresent) {
 							System.out.println("Person Present");
 						} else {
 							System.out.println("Person Doesn't exist in this list");
 						}
-						
 					}
-					textBox007.setText("Age");
+				//For when only first name is input:
+					if (!firstNameSearch.equals("First Name") &&
+							!firstNameSearch.equals("") && ageSearch == 120 &&
+							(lastNameSearch.equals("") || lastNameSearch.equals("Last Name")) ) {
+						System.out.println("Search for first name: " + firstNameSearch);
+						listOfNames.add("Search for first name: " + firstNameSearch);
+						List <Person> firstNameList = new ArrayList (ageOrderTree.findFirstName(ageOrderTree.root, firstNameSearch));
+						for (int i = 0; i < firstNameList.size(); i++) {
+							System.out.println(firstNameList.get(i));
+							listOfNames.add(firstNameList.get(i).toString());
+						}
+					}
+				//For when only last name is input:
+					if (!lastNameSearch.equals("Last Name") &&
+							!lastNameSearch.equals("") && ageSearch == 120 &&
+							(firstNameSearch.equals("") || firstNameSearch.equals("First Name")) ) {
+						System.out.println("Search for last name: " + lastNameSearch);
+						listOfNames.add("Search for last name: " + lastNameSearch);
+						List <Person> lastNameList = new ArrayList (ageOrderTree.findLastName(ageOrderTree.root, lastNameSearch));
+						for (int i = 0; i < lastNameList.size(); i++) {
+							System.out.println(lastNameList.get(i));
+							listOfNames.add(lastNameList.get(i).toString());
+						}
+					}
+				//For when only age is input:
+					if (ageSearch != 120 &&
+							(firstNameSearch.equals("") || firstNameSearch.equals("First Name")) &&							
+							(lastNameSearch.equals("") || lastNameSearch.equals("Last Name")) ) {
+						System.out.println("Search for age: " + ageSearch);
+						listOfNames.add("Search for age: " + ageSearch);
+						List <Person> ageList = new ArrayList (ageOrderTree.findAge(ageOrderTree.root, ageSearch));
+						for (int i = 0; i < ageList.size(); i++) {
+							System.out.println(ageList.get(i));
+							listOfNames.add(ageList.get(i).toString());
+						}
+					}
+					
+				//For when only first name and last name is input:
+					
+				//For when only first name and age is input:
+					
+				//For when only last name and age is present:
 					
 					
 					System.out.println("------");

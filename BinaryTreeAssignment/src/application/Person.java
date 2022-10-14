@@ -14,7 +14,7 @@ public class Person {
 	}
 	
 	public String toString () {
-		String personString = getFirstName() + " " + getLastName() + " " + getAge() ;
+		String personString = "Name: " + getFirstName() + " " + getLastName() + " | Age: " + getAge() ;
 		return personString;
 	}
 

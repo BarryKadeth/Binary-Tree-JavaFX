@@ -50,6 +50,17 @@ public class Main extends Application {
 			Text text001 = new Text("add to list (Press Enter):");
 			TextField textBox01 = new TextField ("10");
 			textBox01.setPrefSize(120,20);
+			//Insert own person attributes
+			Text text8 = new Text("Add specific person");
+			Text text08 = new Text("(press Add Person):");
+			TextField textBox8 = new TextField ("Baramey");
+			textBox8.setPrefSize(120,20);
+			TextField textBox08 = new TextField ("Kadeth");
+			textBox08.setPrefSize(120,20);
+			TextField textBox008 = new TextField ("25");
+			textBox008.setPrefSize(120,20);
+			Button button08 = new Button("Add Person");
+			button08.setPrefSize(130, 20);
 			//First Name Binary Tree
 			Text text1 = new Text("First Name Binary Tree:");
 			MenuItem button01 = new MenuItem("Pre-Order Tree");
@@ -101,18 +112,11 @@ public class Main extends Application {
 			MenuItem menu7 = new MenuItem("First Name Length > Last Name Length");
 			MenuItem menu07 = new MenuItem("First Name Length < Last Name Length");
 			MenuButton menu007 = new MenuButton ("Name Length Lists",null,menu7,menu07);
-			
-			//Make an add custom name button 
-//			Button button7 = new Button("Name Length > Last Name");
-//			button7.setPrefSize(130, 20);
-//			Button button8 = new Button("Search by Last Name");
-//			button8.setPrefSize(130, 20);
-//			Button button9 = new Button("Search by Age");
-//			button9.setPrefSize(130, 20);
-
-			
+						
 		//Organizing all the left side buttons
-			VBox leftPane = new VBox(text01,text001,textBox01,text1,button1,button2,
+			VBox leftPane = new VBox(text01,text001,textBox01,
+					text8,text08,textBox8,textBox08,textBox008,button08,
+					text1,button1,button2,
 					text2,button3,button4,text3,button5,button6,
 					text4,text5,textBox7,textBox07,textBox007,button07,text6,text7,textBox0007,menu007
 					//button7,button8,button9	Buttons not needed at the moment
@@ -149,6 +153,31 @@ public class Main extends Application {
 						firstNameTree.inOrder();
 						System.out.println("------");	
 					}
+				}
+			});
+			//Buttons for adding a new person into the data
+			button08.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					String firstName = textBox8.getText();
+					String lastName = textBox08.getText();
+					int age; 
+					try {
+						age = Integer.parseInt(textBox008.getText());
+					} catch (NumberFormatException e) {
+						age = 25;
+					}
+					
+					Person newPerson = new Person (firstName,lastName,age);
+					firstNameTree.insertNode(newPerson);
+					lastNameTree.insertNode(newPerson);
+					ageOrderTree.insertNode(newPerson);
+					listOfNames.clear();
+					System.out.println("First Name Sort:");
+					rightTitle.setText("First Name Sort: ");
+					firstNameTree.inOrder();
+					System.out.println("------");	
+					
 				}
 			});
 			
@@ -417,6 +446,48 @@ public class Main extends Application {
 					System.out.println("------");
 				}
 			});
+			//Display names where first name > last name length
+			menu7.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					listOfNames.clear();
+					List <Person> firstLargerList = new ArrayList (ageOrderTree.firstLarger(ageOrderTree.root));
+					
+					for (int i = 0; i < firstLargerList.size();i++ ) {
+						System.out.println(firstLargerList.get(i));
+						listOfNames.add(firstLargerList.get(i).toString());
+						
+					}
+					System.out.println("List of people with first names larger than last names:");
+					rightTitle.setText("List of people with first names larger than last names:");
+					System.out.println("------");
+				}
+			});
+			
+			//Display names where first name < last name length
+			menu07.setOnAction(new EventHandler<ActionEvent> () {
+				@Override
+				public void handle (ActionEvent arg0) {
+					listOfNames.clear();
+					List <Person> lastLargerList = new ArrayList (ageOrderTree.lastLarger(ageOrderTree.root));
+					
+					for (int i = 0; i < lastLargerList.size();i++ ) {
+						System.out.println(lastLargerList.get(i));
+						listOfNames.add(lastLargerList.get(i).toString());
+						
+					}
+					System.out.println("List of people with first names smaller than last names:");
+					rightTitle.setText("List of people with first names smaller than last names:");
+					System.out.println("------");
+				}
+			});
+			
+			
+			
+			
+			
+			
+			
 			//Breadth first traversal age order
 			textBox0007.setOnAction(new EventHandler<ActionEvent> () {
 				@Override
@@ -436,7 +507,15 @@ public class Main extends Application {
 				}
 			});
 			
-			Scene scene = new Scene(root,500,600);
+			
+			
+			
+			
+			
+			
+			
+			
+			Scene scene = new Scene(root,500,630);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setTitle("Person Binary Search Tree");

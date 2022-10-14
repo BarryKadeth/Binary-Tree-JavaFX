@@ -388,6 +388,8 @@ public class BinaryTree {
 	}
 	
 	/**
+	 * Creates a list of people whos first and last names are longer than
+	 * the specified minimum length
 	 * Using the 0301TreesandGraphs slides
 	 */
 	public List<Person> findNameLength (Node p, int minLength) {
@@ -408,7 +410,52 @@ public class BinaryTree {
 		}
 	}
 	
+	/**
+	 * Creates a list of people whos first names are long than their last names 
+	 * Using the 0301TreesandGraphs slides
+	 */
+	public List<Person> firstLarger (Node p) {
+		List<Person> nameList = new ArrayList<Person>();
+		firstLargerRecursion(p, nameList);
+		
+		return nameList;
+	}
+	public void firstLargerRecursion (Node p, List<Person>nameList) {
+		if (p!=null) {
+			if (p.key.getFirstName().length() > p.key.getLastName().length() ) {
+				nameList.add(p.key);
+			}
+			firstLargerRecursion(p.left,nameList);
+			firstLargerRecursion(p.right,nameList);
+			
+		}
+	}
 	
+	/**
+	 * Creates a list of people whose last names are longer than their first names 
+	 * Using the 0301TreesandGraphs slides
+	 */
+	public List<Person> lastLarger (Node p) {
+		List<Person> namesList = new ArrayList<Person>();
+		lastLargerRecursion(p, namesList);
+		
+		return namesList;
+	}
+	public void lastLargerRecursion (Node p, List<Person>namesList) {
+		if (p!=null) {
+			if (p.key.getLastName().length() > p.key.getFirstName().trim().length()) {
+				System.out.println(p.key);
+				System.out.println("first name length: " +p.key.getFirstName().length());
+				System.out.println("last name length: " +p.key.getLastName().length());
+				namesList.add(p.key);
+			} else {
+				
+			}
+			lastLargerRecursion(p.left,namesList);
+			lastLargerRecursion(p.right,namesList);
+			
+		}
+	}
 	
 	
 	/**

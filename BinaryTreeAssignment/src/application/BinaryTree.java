@@ -43,6 +43,7 @@ public class BinaryTree {
 	 */
 	public void insertNode (Person key) {
 		root = recursiveInsert(root, key);
+//		root = AVLInsert(root,key);
 	}
 	
 	/**
@@ -311,6 +312,8 @@ public class BinaryTree {
 		}
 		//Check left and right subtree difference for current node
 		if (Math.abs(leftTreeCompare - rightTreeCompare) > 1) {
+			System.out.println("Left: " + leftTreeCompare);
+			System.out.println("Right: " + rightTreeCompare);
 			return -1;
 		} else {
 			return (Math.max(leftTreeCompare,rightTreeCompare) +1);
@@ -440,6 +443,178 @@ public class BinaryTree {
 			
 		}
 	}
+	
+	//AVL Tree: resource was used
+	//https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+	/**
+	 * Height of tree
+	 */
+	public int height (Node p) {
+		if (p == null) {
+			return 0;
+		}
+		return p.height;
+	}
+	
+	/**
+	 * Utility to get the max of two integers
+	 */
+	public int max(int a, int b) {
+		return (a > b) ? a : b;
+	}
+	
+	/**
+	 * Method to right rotate the subtree rooted with y
+	 */
+	public Node rightRotate (Node y) {
+		Node x = y.left;
+		if (x != null) {
+			Node T2 = x.right;
+			//Perform the rotation
+			x.right = y;
+			y.left = T2;
+			//Update the heights
+			y.height = max(height(y.left), height(y.right)) + 1;
+			x.height = max(height(x.left), height(x.right)) + 1;
+			//return the new root
+			return x;
+		}
+		return y;
+	}
+	
+	/**
+	 * Method to left rotate the subtree rooted with x
+	 */
+	public Node leftRotate (Node x) {
+		Node y = x.right;
+		if (y != null) {
+			Node T2 = y.left;
+			//Rotation
+			y.left = x;
+			x.right = T2;
+			//Update heights
+			x.height = max(height(x.left), height(x.right)) + 1;
+			y.height = max(height(y.left), height(y.right)) + 1;
+			//return the new root
+			return y;
+		}
+		return x;
+	}
+
+	/**
+	 * Method for the balance factor of node p
+	 */
+	public int getBalance (Node p) {
+		if (p == null) {
+			return 0;
+		}
+		return height(p.left) - height (p.right);
+	}
+	
+	/**
+	 * Set up of determining which compare-by to use
+	 * @param key
+	 * @return
+	 */
+	public int comparisonNumber (Person key) {
+		if (sortBy.equalsIgnoreCase("firstName")) {
+			return compareByFirstName(key,root.key);
+		} else if (sortBy.equalsIgnoreCase("lastName")) {
+			return compareByLastName(key,root.key);
+		} else {
+			return compareByAge(key,root.key);
+		}
+	}
+	
+	/**
+	 * Set up of determining which compare-by to use for person A person B Comparison
+	 * @param key
+	 * @return
+	 */
+	public int personABComparisonNumber (Person a, Person b) {
+		if (sortBy.equalsIgnoreCase("firstName")) {
+			return compareByFirstName(a,b);
+		} else if (sortBy.equalsIgnoreCase("lastName")) {
+			return compareByLastName(a,b);
+		} else {
+			return compareByAge(a,b);
+		}
+	}
+	
+	/**
+	 * Method for new insertion
+	 * Taken from the web site
+	 * https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+	 */
+    public Node AVLInsert(Node node, Person key) {
+        /* 1.  Perform the normal BST insertion */
+        if (node == null) {
+            return (new Node(key));
+        }
+		//Comparing depending on the type of binary tree
+		int comparison = comparisonNumber(key);
+ 
+        if (comparison < 0) {
+            node.left = AVLInsert(node.left, key);
+        }
+        else if (comparison > 0) {
+            node.right = AVLInsert(node.right, key);
+        }
+        else // Duplicate keys not allowed
+//Will need to change this to keep a counter of how many of a certain name there is 
+            return node;
+        /* 2. Update height of this ancestor node */
+        node.height = 1 + max(height(node.left), height(node.right));
+        /* 3. Get the balance factor of this ancestor
+              node to check whether this node became
+              unbalanced */
+        int balance = getBalance(node);
+        // If this node becomes unbalanced, then there are 4 cases 
+        //Left Left Case
+        if (node.left !=null) {
+            int comparison1 = personABComparisonNumber(key,node.left.key);
+            if (balance > 1 && comparison1 < 0) {
+                return rightRotate(node);
+            }
+        }
+        // Right Right Case
+        if (node.right != null) {
+            int comparison2 = personABComparisonNumber(key,node.right.key);
+            if (balance < -1 && comparison2 > 0) {
+                return leftRotate(node);
+            }
+        }
+        // Left Right Case
+        if (node.left !=null) {
+            int comparison3 = personABComparisonNumber(key,node.left.key);
+            if (balance > 1 && comparison3 > 0) {
+                node.left = leftRotate(node.left);
+                return rightRotate(node);
+            }
+        }
+        // Right Left Case
+        if (node.left != null) {
+            int comparison4 = personABComparisonNumber(key,node.left.key);
+            if (balance < -1 && comparison4 < 0) {
+                node.right = rightRotate(node.right);
+                return leftRotate(node);
+            }
+        }
+        //for the cases where key exists but node.left or node.right does not
+        if (node.left == null) {
+            if (balance > 1) {
+            	return (new Node(key));
+            }
+        }
+        if (node.right == null) {
+            if (balance < -1) {
+            	return (new Node(key));
+            }
+        }        
+        
+        /* return the (unchanged) node pointer */
+        return node;
+    }
 	
 	
 	/**

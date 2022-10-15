@@ -10,6 +10,7 @@ public class Node {
 	Person key;
 	Node left;
 	Node right;
+	int height;
 	
 	public Node (Person key) {
 		this.key = key;
